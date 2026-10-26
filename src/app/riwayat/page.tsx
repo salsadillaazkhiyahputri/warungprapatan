@@ -232,16 +232,16 @@ export default function RiwayatPage() {
             gap: '10px',
             padding: '12px 18px',
             background: '#FFFFFF',
-            border: '1px solid #1E2C3A',
-            borderRadius: 'var(--radius-sm)',
+            border: '1px solid #0F172A',
+            borderRadius: 'var(--radius-md)',
             boxShadow: 'var(--shadow-md)',
             color: '#0F172A',
-            fontSize: '13.5px',
+            fontSize: '13px',
             fontWeight: 600,
-            animation: 'fadeIn 0.18s ease'
+            animation: 'fadeIn 0.15s ease'
           }}
         >
-          <CheckCircle2 size={18} style={{ color: '#15803D' }} />
+          <CheckCircle2 size={17} style={{ color: '#059669' }} />
           <span>{toastMessage}</span>
         </div>
       )}
@@ -252,16 +252,16 @@ export default function RiwayatPage() {
           <div
             style={{
               padding: '6px 14px',
-              borderRadius: 'var(--radius-sm)',
+              borderRadius: 'var(--radius-full)',
               background: '#FFFFFF',
               border: '1px solid #E2E8F0',
-              fontSize: '13px',
+              fontSize: '12.5px',
               fontWeight: 600,
-              color: '#1E2C3A',
-              boxShadow: 'var(--shadow-sm)'
+              color: '#0F172A',
+              boxShadow: 'var(--shadow-xs)'
             }}
           >
-            Total <strong style={{ color: '#1E2C3A' }}>{transactions.length}</strong> Catatan
+            Total <strong style={{ color: '#0F172A' }}>{transactions.length}</strong> Catatan
           </div>
           <button
             onClick={fetchTransactions}
@@ -300,7 +300,7 @@ export default function RiwayatPage() {
           padding: '18px 20px',
           background: '#FFFFFF',
           border: '1px solid #E2E8F0',
-          borderRadius: 'var(--radius-md)',
+          borderRadius: 'var(--radius-lg)',
           marginBottom: '20px',
           boxShadow: 'var(--shadow-card)'
         }}
@@ -399,7 +399,10 @@ export default function RiwayatPage() {
             {isLoading ? (
               <tr>
                 <td colSpan={5} style={{ textAlign: 'center', padding: '36px', color: '#94A3B8' }}>
-                  Memuat data riwayat...
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+                    <div style={{ width: '16px', height: '16px', borderRadius: '50%', border: '2px solid #CBD5E1', borderTopColor: '#0F172A', animation: 'spin 0.6s linear infinite' }} />
+                    <span>Memuat data riwayat...</span>
+                  </div>
                 </td>
               </tr>
             ) : transactions.length === 0 ? (
@@ -423,7 +426,7 @@ export default function RiwayatPage() {
                       </Badge>
                     </td>
                     <td>
-                      <span style={{ fontWeight: 600, color: '#1E2C3A', fontSize: '14px' }}>
+                      <span style={{ fontWeight: 600, color: '#0F172A', fontSize: '13.5px' }}>
                         {tx.product?.name || `Produk #${tx.product_id}`}
                       </span>
                     </td>
@@ -431,8 +434,8 @@ export default function RiwayatPage() {
                       <span
                         style={{
                           fontWeight: 700,
-                          fontSize: '14px',
-                          color: isIn ? '#15803D' : '#DC2626'
+                          fontSize: '13.5px',
+                          color: isIn ? '#059669' : '#DC2626'
                         }}
                       >
                         {isIn ? '+' : '-'}{tx.qty} {tx.product?.unit || 'pcs'}
@@ -441,7 +444,7 @@ export default function RiwayatPage() {
                     <td>
                       <div style={{ color: '#475569', fontSize: '13px' }}>
                         {tx.supplier?.name ? (
-                          <span style={{ fontWeight: 500, color: '#1E2C3A' }}>
+                          <span style={{ fontWeight: 500, color: '#0F172A' }}>
                             {tx.supplier.name}
                           </span>
                         ) : tx.note ? (
@@ -489,9 +492,9 @@ export default function RiwayatPage() {
                 fontSize: '13.5px'
               }}
             >
-              <FileSpreadsheet size={20} style={{ color: '#15803D' }} />
-              <div style={{ textAlign: 'left', marginLeft: '6px' }}>
-                <span style={{ fontWeight: 600, display: 'block', color: '#1E2C3A' }}>Unduh Microsoft Excel (.xlsx)</span>
+              <FileSpreadsheet size={19} style={{ color: '#059669' }} />
+              <div style={{ textAlign: 'left', marginLeft: '8px' }}>
+                <span style={{ fontWeight: 600, display: 'block', color: '#0F172A' }}>Unduh Microsoft Excel (.xlsx)</span>
                 <span style={{ fontSize: '11.5px', color: '#64748B' }}>Format spreadsheet lengkap</span>
               </div>
             </button>
@@ -508,16 +511,16 @@ export default function RiwayatPage() {
                 fontSize: '13.5px'
               }}
             >
-              <FileText size={20} style={{ color: '#DC2626' }} />
-              <div style={{ textAlign: 'left', marginLeft: '6px' }}>
-                <span style={{ fontWeight: 600, display: 'block', color: '#1E2C3A' }}>Unduh Dokumen PDF (.pdf)</span>
+              <FileText size={19} style={{ color: '#DC2626' }} />
+              <div style={{ textAlign: 'left', marginLeft: '8px' }}>
+                <span style={{ fontWeight: 600, display: 'block', color: '#0F172A' }}>Unduh Dokumen PDF (.pdf)</span>
                 <span style={{ fontSize: '11.5px', color: '#64748B' }}>Format cetak siap pakai</span>
               </div>
             </button>
           </div>
 
           {isExporting && (
-            <p style={{ fontSize: '12px', color: '#1E2C3A', textAlign: 'center', marginTop: '12px' }}>
+            <p style={{ fontSize: '12px', color: '#0F172A', textAlign: 'center', marginTop: '12px' }}>
               Sedang memproses laporan...
             </p>
           )}
@@ -560,12 +563,12 @@ export default function RiwayatPage() {
                 onClick={() => setManualForm({ ...manualForm, type: 'in' })}
                 style={{
                   padding: '9px',
-                  borderRadius: 'var(--radius-sm)',
+                  borderRadius: 'var(--radius-md)',
                   fontWeight: 600,
                   fontSize: '13px',
-                  background: manualForm.type === 'in' ? '#DCFCE7' : '#FFFFFF',
-                  color: manualForm.type === 'in' ? '#15803D' : '#475569',
-                  border: `1px solid ${manualForm.type === 'in' ? '#86EFAC' : '#CBD5E1'}`,
+                  background: manualForm.type === 'in' ? '#ECFDF5' : '#FFFFFF',
+                  color: manualForm.type === 'in' ? '#065F46' : '#475569',
+                  border: `1px solid ${manualForm.type === 'in' ? '#A7F3D0' : '#D1D5DB'}`,
                   cursor: 'pointer'
                 }}
               >
@@ -576,12 +579,12 @@ export default function RiwayatPage() {
                 onClick={() => setManualForm({ ...manualForm, type: 'out' })}
                 style={{
                   padding: '9px',
-                  borderRadius: 'var(--radius-sm)',
+                  borderRadius: 'var(--radius-md)',
                   fontWeight: 600,
                   fontSize: '13px',
-                  background: manualForm.type === 'out' ? '#FEE2E2' : '#FFFFFF',
-                  color: manualForm.type === 'out' ? '#B91C1C' : '#475569',
-                  border: `1px solid ${manualForm.type === 'out' ? '#FCA5A5' : '#CBD5E1'}`,
+                  background: manualForm.type === 'out' ? '#FEF2F2' : '#FFFFFF',
+                  color: manualForm.type === 'out' ? '#991B1B' : '#475569',
+                  border: `1px solid ${manualForm.type === 'out' ? '#FECACA' : '#D1D5DB'}`,
                   cursor: 'pointer'
                 }}
               >

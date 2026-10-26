@@ -208,7 +208,7 @@ export default function ProdukPage() {
   return (
     <DashboardLayout
       title="Kelola Data Produk"
-      subtitle="Katalog barang toko, stok saat ini, dan konversi karton"
+      subtitle="Katalog barang toko, stok saat ini, dan konversi satuan karton"
     >
       {/* Toast Notification */}
       {toastMessage && (
@@ -223,16 +223,16 @@ export default function ProdukPage() {
             gap: '10px',
             padding: '12px 18px',
             background: '#FFFFFF',
-            border: '1px solid #1E2C3A',
-            borderRadius: 'var(--radius-sm)',
+            border: '1px solid #0F172A',
+            borderRadius: 'var(--radius-md)',
             boxShadow: 'var(--shadow-md)',
             color: '#0F172A',
-            fontSize: '13.5px',
+            fontSize: '13px',
             fontWeight: 600,
-            animation: 'fadeIn 0.18s ease'
+            animation: 'fadeIn 0.15s ease'
           }}
         >
-          <CheckCircle2 size={18} style={{ color: '#15803D' }} />
+          <CheckCircle2 size={17} style={{ color: '#059669' }} />
           <span>{toastMessage}</span>
         </div>
       )}
@@ -247,7 +247,7 @@ export default function ProdukPage() {
             gap: '10px',
             flex: '1',
             minWidth: '280px',
-            maxWidth: '480px'
+            maxWidth: '460px'
           }}
         >
           <div style={{ position: 'relative', width: '100%' }}>
@@ -286,7 +286,7 @@ export default function ProdukPage() {
           </button>
 
           <button onClick={openAddModal} className="btn btn-primary btn-sm">
-            <Plus size={16} />
+            <Plus size={15} />
             <span>Tambah Produk</span>
           </button>
         </div>
@@ -298,8 +298,8 @@ export default function ProdukPage() {
           display: 'flex',
           gap: '8px',
           overflowX: 'auto',
-          paddingBottom: '10px',
-          marginBottom: '18px'
+          paddingBottom: '8px',
+          marginBottom: '20px'
         }}
       >
         {CATEGORIES.map((cat) => {
@@ -311,12 +311,12 @@ export default function ProdukPage() {
               style={{
                 padding: '6px 14px',
                 borderRadius: 'var(--radius-full)',
-                fontSize: '13px',
+                fontSize: '12.5px',
                 fontWeight: isSelected ? 600 : 500,
-                background: isSelected ? '#1E2C3A' : '#FFFFFF',
+                background: isSelected ? '#0F172A' : '#FFFFFF',
                 color: isSelected ? '#FFFFFF' : '#475569',
-                border: `1px solid ${isSelected ? '#1E2C3A' : '#CBD5E1'}`,
-                boxShadow: 'var(--shadow-sm)',
+                border: `1px solid ${isSelected ? '#0F172A' : '#E2E8F0'}`,
+                boxShadow: isSelected ? '0 1px 3px rgba(15, 23, 42, 0.15)' : 'var(--shadow-xs)',
                 transition: 'all var(--transition-fast)',
                 cursor: 'pointer'
               }}
@@ -344,7 +344,10 @@ export default function ProdukPage() {
             {isLoading ? (
               <tr>
                 <td colSpan={6} style={{ textAlign: 'center', padding: '36px', color: '#94A3B8' }}>
-                  Memuat data produk...
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+                    <div style={{ width: '16px', height: '16px', borderRadius: '50%', border: '2px solid #CBD5E1', borderTopColor: '#0F172A', animation: 'spin 0.6s linear infinite' }} />
+                    <span>Memuat data produk...</span>
+                  </div>
                 </td>
               </tr>
             ) : products.length === 0 ? (
@@ -367,16 +370,16 @@ export default function ProdukPage() {
                 return (
                   <tr key={item.id}>
                     <td>
-                      <div style={{ fontWeight: 600, color: '#1E2C3A', fontSize: '14px' }}>
+                      <div style={{ fontWeight: 600, color: '#0F172A', fontSize: '13.5px' }}>
                         {item.name}
                       </div>
                     </td>
                     <td>
                       <span
                         style={{
-                          fontSize: '12px',
+                          fontSize: '11.5px',
                           fontWeight: 500,
-                          padding: '3px 9px',
+                          padding: '3px 8px',
                           borderRadius: 'var(--radius-sm)',
                           background: '#F1F5F9',
                           border: '1px solid #E2E8F0',
@@ -398,13 +401,13 @@ export default function ProdukPage() {
                           <Badge type="warning">
                             {item.stock_current} {item.unit}
                           </Badge>
-                          <span style={{ fontSize: '11px', color: '#DC2626' }}>
+                          <span style={{ fontSize: '11px', color: '#DC2626', fontWeight: 500 }}>
                             Min: {item.stock_minimum} {item.unit}
                           </span>
                         </div>
                       ) : (
                         <div>
-                          <span style={{ fontWeight: 600, color: '#1E2C3A', fontSize: '14px' }}>
+                          <span style={{ fontWeight: 600, color: '#0F172A', fontSize: '13.5px' }}>
                             {item.stock_current} {item.unit}
                           </span>
                           {item.qty_per_karton && (
@@ -422,7 +425,7 @@ export default function ProdukPage() {
                           style={{
                             padding: '6px',
                             borderRadius: 'var(--radius-sm)',
-                            color: '#1E2C3A',
+                            color: '#334155',
                             background: '#F8FAFC',
                             border: '1px solid #E2E8F0',
                             display: 'flex',
@@ -433,7 +436,7 @@ export default function ProdukPage() {
                           className="action-btn-edit"
                           title="Edit Produk"
                         >
-                          <Edit2 size={14} />
+                          <Edit2 size={13} />
                         </button>
                         <button
                           onClick={() => openDeleteModal(item)}
@@ -451,7 +454,7 @@ export default function ProdukPage() {
                           className="action-btn-delete"
                           title="Hapus Produk"
                         >
-                          <Trash2 size={14} />
+                          <Trash2 size={13} />
                         </button>
                       </div>
                     </td>
@@ -746,8 +749,8 @@ export default function ProdukPage() {
         <div style={{ textAlign: 'center', padding: '10px 0 20px' }}>
           <div
             style={{
-              width: '48px',
-              height: '48px',
+              width: '46px',
+              height: '46px',
               borderRadius: 'var(--radius-sm)',
               background: '#FEF2F2',
               border: '1px solid #FECACA',
@@ -758,9 +761,9 @@ export default function ProdukPage() {
               margin: '0 auto 14px'
             }}
           >
-            <Trash2 size={22} />
+            <Trash2 size={20} />
           </div>
-          <h4 style={{ fontSize: '16px', fontWeight: 700, color: '#1E2C3A' }}>
+          <h4 style={{ fontSize: '15.5px', fontWeight: 700, color: '#0F172A' }}>
             Hapus produk ini?
           </h4>
           <p style={{ fontSize: '13px', color: '#64748B', marginTop: '6px', lineHeight: 1.45 }}>
@@ -789,9 +792,9 @@ export default function ProdukPage() {
 
       <style jsx global>{`
         .action-btn-edit:hover {
-          background: #1E2C3A !important;
+          background: #0F172A !important;
           color: #FFFFFF !important;
-          border-color: #1E2C3A !important;
+          border-color: #0F172A !important;
         }
         .action-btn-delete:hover {
           background: #DC2626 !important;

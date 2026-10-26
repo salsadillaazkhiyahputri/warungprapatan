@@ -52,7 +52,7 @@ export default function DashboardPage() {
           </p>
         </div>
 
-        <div style={{ display: 'flex', gap: '10px' }}>
+        <div style={{ display: 'flex', gap: '8px' }}>
           <button
             onClick={fetchStats}
             className="btn btn-secondary btn-sm"
@@ -127,7 +127,7 @@ export default function DashboardPage() {
               <AlertTriangle size={18} />
             </div>
             <div>
-              <h3 style={{ fontSize: '15.5px', fontWeight: 700, color: '#1E2C3A' }}>
+              <h3 style={{ fontSize: '15.5px', fontWeight: 700, color: '#0F172A' }}>
                 Produk Stok Menipis
               </h3>
               <p style={{ fontSize: '12px', color: '#64748B' }}>
@@ -144,7 +144,7 @@ export default function DashboardPage() {
               gap: '5px',
               fontSize: '13px',
               fontWeight: 600,
-              color: '#1E2C3A',
+              color: '#0F172A',
               transition: 'all var(--transition-fast)'
             }}
             className="hover-link"
@@ -167,21 +167,24 @@ export default function DashboardPage() {
               {isLoading ? (
                 <tr>
                   <td colSpan={3} style={{ textAlign: 'center', padding: '32px', color: '#94A3B8' }}>
-                    Memuat data...
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+                      <div style={{ width: '16px', height: '16px', borderRadius: '50%', border: '2px solid #CBD5E1', borderTopColor: '#0F172A', animation: 'spin 0.6s linear infinite' }} />
+                      <span>Memuat data...</span>
+                    </div>
                   </td>
                 </tr>
               ) : !stats?.low_stock_products || stats.low_stock_products.length === 0 ? (
                 <tr>
-                  <td colSpan={3} style={{ textAlign: 'center', padding: '36px', color: '#15803D' }}>
-                    <CheckCircle2 size={28} style={{ margin: '0 auto 6px', display: 'block' }} />
-                    <span style={{ fontWeight: 600, fontSize: '13.5px' }}>Semua stok dalam batas aman.</span>
+                  <td colSpan={3} style={{ textAlign: 'center', padding: '36px', color: '#059669' }}>
+                    <CheckCircle2 size={26} style={{ margin: '0 auto 6px', display: 'block' }} />
+                    <span style={{ fontWeight: 600, fontSize: '13px' }}>Semua stok dalam batas aman.</span>
                   </td>
                 </tr>
               ) : (
                 stats.low_stock_products.map((item) => (
                   <tr key={item.id}>
                     <td>
-                      <div style={{ fontWeight: 600, color: '#1E2C3A', fontSize: '14px' }}>
+                      <div style={{ fontWeight: 600, color: '#0F172A', fontSize: '13.5px' }}>
                         {item.name}
                       </div>
                       <div style={{ fontSize: '12px', color: '#64748B', marginTop: '2px' }}>
@@ -192,9 +195,9 @@ export default function DashboardPage() {
                     <td>
                       <span
                         style={{
-                          fontSize: '12px',
+                          fontSize: '11.5px',
                           fontWeight: 500,
-                          padding: '3px 9px',
+                          padding: '3px 8px',
                           borderRadius: 'var(--radius-sm)',
                           background: '#F1F5F9',
                           border: '1px solid #E2E8F0',

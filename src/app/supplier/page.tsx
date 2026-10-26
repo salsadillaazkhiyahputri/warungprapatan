@@ -109,23 +109,23 @@ export default function SupplierPage() {
             gap: '10px',
             padding: '12px 18px',
             background: '#FFFFFF',
-            border: '1px solid #1E2C3A',
-            borderRadius: 'var(--radius-sm)',
+            border: '1px solid #0F172A',
+            borderRadius: 'var(--radius-md)',
             boxShadow: 'var(--shadow-md)',
             color: '#0F172A',
-            fontSize: '13.5px',
+            fontSize: '13px',
             fontWeight: 600,
-            animation: 'fadeIn 0.18s ease'
+            animation: 'fadeIn 0.15s ease'
           }}
         >
-          <CheckCircle2 size={18} style={{ color: '#15803D' }} />
+          <CheckCircle2 size={17} style={{ color: '#059669' }} />
           <span>{toastMessage}</span>
         </div>
       )}
 
-      {/* Clean Note Banner */}
+      {/* Modern Clean Note Banner */}
       <div className="info-callout">
-        <Info size={16} style={{ color: '#1E2C3A', flexShrink: 0, marginTop: '2px' }} />
+        <Info size={16} style={{ color: '#0F172A', flexShrink: 0, marginTop: '2px' }} />
         <span>
           Mitra supplier otomatis tercatat saat pencatatan transaksi masuk melalui Telegram Bot. Anda dapat memperbarui nama supplier jika diperlukan penyesuaian.
         </span>
@@ -137,16 +137,16 @@ export default function SupplierPage() {
           <div
             style={{
               padding: '6px 14px',
-              borderRadius: 'var(--radius-sm)',
+              borderRadius: 'var(--radius-full)',
               background: '#FFFFFF',
               border: '1px solid #E2E8F0',
-              fontSize: '13px',
+              fontSize: '12.5px',
               fontWeight: 600,
-              color: '#1E2C3A',
-              boxShadow: 'var(--shadow-sm)'
+              color: '#0F172A',
+              boxShadow: 'var(--shadow-xs)'
             }}
           >
-            Total <strong style={{ color: '#1E2C3A' }}>{suppliers.length}</strong> Supplier Terdaftar
+            Total <strong style={{ color: '#0F172A' }}>{suppliers.length}</strong> Supplier Terdaftar
           </div>
 
           <button
@@ -173,7 +173,10 @@ export default function SupplierPage() {
             {isLoading ? (
               <tr>
                 <td colSpan={3} style={{ textAlign: 'center', padding: '36px', color: '#94A3B8' }}>
-                  Memuat data supplier...
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+                    <div style={{ width: '16px', height: '16px', borderRadius: '50%', border: '2px solid #CBD5E1', borderTopColor: '#0F172A', animation: 'spin 0.6s linear infinite' }} />
+                    <span>Memuat data supplier...</span>
+                  </div>
                 </td>
               </tr>
             ) : suppliers.length === 0 ? (
@@ -195,16 +198,16 @@ export default function SupplierPage() {
                           borderRadius: 'var(--radius-sm)',
                           background: '#F1F5F9',
                           border: '1px solid #E2E8F0',
-                          color: '#1E2C3A',
+                          color: '#0F172A',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
                           flexShrink: 0
                         }}
                       >
-                        <Truck size={16} />
+                        <Truck size={15} />
                       </div>
-                      <span style={{ fontWeight: 600, color: '#1E2C3A', fontSize: '14px' }}>
+                      <span style={{ fontWeight: 600, color: '#0F172A', fontSize: '13.5px' }}>
                         {item.name}
                       </span>
                     </div>
@@ -216,10 +219,10 @@ export default function SupplierPage() {
                     <button
                       onClick={() => openEditModal(item)}
                       className="btn btn-secondary btn-sm"
-                      style={{ fontSize: '12.5px', height: '32px', padding: '0 12px' }}
+                      style={{ fontSize: '12px', height: '32px', padding: '0 12px' }}
                       title="Ubah Nama Supplier"
                     >
-                      <Edit2 size={13} />
+                      <Edit2 size={12} />
                       <span>Ubah Nama</span>
                     </button>
                   </td>
