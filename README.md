@@ -69,20 +69,6 @@ Buka peramban pada alamat [http://localhost:3000](http://localhost:3000).
 
 ---
 
-## 💬 Pengujian Chatbot Telegram Interaktif
-Aplikasi menyediakan **Chatbot Tester** langsung pada menu web (`/bot-tester`):
-- Mensimulasikan antarmuka Telegram mobile secara visual.
-- Tersedia tombol cepat untuk menguji seluruh skenario SRS:
-  1. `masuk 2 karton indomie dari unilever`
-  2. `masuk 5 karton royco` (bot menanyakan balik supplier)
-  3. `keluar 3 pcs sabun lifebuoy`
-  4. `stok indomie berapa?`
-  5. `rekap hari ini`
-  6. `halo apa kabar` (fallback)
-- Setiap interaksi langsung memutasi database produk dan transaksi secara *real-time*.
-
----
-
 ## 📁 Struktur Berkas Proyek
 
 ```
@@ -102,11 +88,9 @@ warung-prapatan/
 │   │   ├── produk/                     # Halaman CRUD Produk
 │   │   ├── supplier/                   # Halaman Kelola Supplier
 │   │   ├── riwayat/                    # Halaman Riwayat & Ekspor
-│   │   ├── bot-tester/                 # Live Telegram Simulator
 │   │   └── login/                      # Halaman Autentikasi Pemilik
 │   ├── components/                     # Komponen UI Modular
 │   ├── lib/                            # Service & Business Logic
 │   └── types/                          # Definisi Tipe TypeScript
-├── TEAM_COLLABORATION.md               # Dokumentasi kolaborasi tim & git flow
 └── README.md                           # Dokumentasi utama proyek
 ```
