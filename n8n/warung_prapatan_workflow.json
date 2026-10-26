@@ -1,0 +1,116 @@
+{
+  "name": "Warung Prapatan - Chatbot Stok Barang (AI Agent Groq & Supabase)",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ]
+      },
+      "id": "telegram-trigger-1",
+      "name": "Telegram Trigger (Pesan Masuk)",
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        240,
+        300
+      ],
+      "webhookId": "warung-prapatan-telegram-webhook"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.message.text }}",
+              "operation": "isNotEmpty"
+            }
+          ]
+        }
+      },
+      "id": "filter-text-message",
+      "name": "Filter Pesan Teks",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        460,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000' }}/api/bot/chat",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"message\": \"{{ $json.message.text }}\",\n  \"chat_id\": \"{{ $json.message.chat.id }}\"\n}",
+        "options": {}
+      },
+      "id": "http-ai-agent-backend",
+      "name": "HTTP Request ke Backend AI Agent",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        700,
+        280
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger (Pesan Masuk)').item.json.message.chat.id }}",
+        "text": "={{ $json.replyText }}",
+        "additionalFields": {
+          "parse_mode": "HTML"
+        }
+      },
+      "id": "telegram-send-reply",
+      "name": "Kirim Balasan Telegram",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        940,
+        280
+      ]
+    }
+  ],
+  "connections": {
+    "Telegram Trigger (Pesan Masuk)": {
+      "main": [
+        [
+          {
+            "node": "Filter Pesan Teks",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Pesan Teks": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request ke Backend AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request ke Backend AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Kirim Balasan Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "warung-prapatan-n8n-v1"
+}

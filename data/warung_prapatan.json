@@ -1,0 +1,207 @@
+{
+  "users": [
+    {
+      "id": "e1a9c1e0-827b-4573-b391-7f8f9e68c5b1",
+      "username": "pemilik",
+      "password": "$2b$10$OwVeJNlQ2nDUSrTi9gKCmeVT/gVILuKhWXfC2diI2QrpXx4uCUxzW",
+      "telegram_chat_id": "123456789",
+      "created_at": "2026-06-01T08:00:00.000Z"
+    }
+  ],
+  "suppliers": [
+    {
+      "id": 1,
+      "name": "Unilever",
+      "created_at": "2026-06-10T09:00:00.000Z"
+    },
+    {
+      "id": 2,
+      "name": "Indofood",
+      "created_at": "2026-06-10T09:30:00.000Z"
+    },
+    {
+      "id": 3,
+      "name": "Roma",
+      "created_at": "2026-06-11T10:00:00.000Z"
+    },
+    {
+      "id": 4,
+      "name": "Indomar Co",
+      "created_at": "2026-06-12T11:00:00.000Z"
+    }
+  ],
+  "products": [
+    {
+      "id": 1,
+      "name": "Indomie Goreng",
+      "category": "Mie",
+      "unit": "pcs",
+      "qty_per_karton": 40,
+      "stock_current": 200,
+      "created_at": "2026-06-01T08:00:00.000Z"
+    },
+    {
+      "id": 2,
+      "name": "Sabun Lifebuoy",
+      "category": "Sabun",
+      "unit": "pcs",
+      "qty_per_karton": 48,
+      "stock_current": 0,
+      "created_at": "2026-06-01T08:00:00.000Z"
+    },
+    {
+      "id": 3,
+      "name": "Royco Ayam",
+      "category": "Bumbu",
+      "unit": "pcs",
+      "qty_per_karton": 120,
+      "stock_current": 840,
+      "created_at": "2026-06-01T08:00:00.000Z"
+    },
+    {
+      "id": 4,
+      "name": "Teh Pucuk",
+      "category": "Minuman",
+      "unit": "pcs",
+      "qty_per_karton": 24,
+      "stock_current": 4,
+      "created_at": "2026-06-01T08:00:00.000Z"
+    },
+    {
+      "id": 5,
+      "name": "Gula Pasir 1kg",
+      "category": "Sembako",
+      "unit": "pcs",
+      "qty_per_karton": 12,
+      "stock_current": 1,
+      "created_at": "2026-06-01T08:00:00.000Z"
+    },
+    {
+      "id": 6,
+      "name": "Mie Sedaap",
+      "category": "Mie",
+      "unit": "pcs",
+      "qty_per_karton": 40,
+      "stock_current": 5,
+      "created_at": "2026-06-01T08:00:00.000Z"
+    },
+    {
+      "id": 7,
+      "name": "Kecap ABC",
+      "category": "Bumbu",
+      "unit": "pcs",
+      "qty_per_karton": 24,
+      "stock_current": 2,
+      "created_at": "2026-06-01T08:00:00.000Z"
+    },
+    {
+      "id": 8,
+      "name": "Minyak Goreng Sania 2L",
+      "category": "Sembako",
+      "unit": "pcs",
+      "qty_per_karton": 6,
+      "stock_current": 18,
+      "created_at": "2026-06-01T08:00:00.000Z"
+    },
+    {
+      "id": 9,
+      "name": "Kopi Kapal Api",
+      "category": "Minuman",
+      "unit": "pcs",
+      "qty_per_karton": 20,
+      "stock_current": 35,
+      "created_at": "2026-06-01T08:00:00.000Z"
+    },
+    {
+      "id": 10,
+      "name": "Pasta Gigi Pepsodent",
+      "category": "Sabun",
+      "unit": "pcs",
+      "qty_per_karton": 36,
+      "stock_current": 15,
+      "created_at": "2026-06-01T08:00:00.000Z"
+    }
+  ],
+  "transactions": [
+    {
+      "id": 1,
+      "product_id": 1,
+      "user_id": "e1a9c1e0-827b-4573-b391-7f8f9e68c5b1",
+      "supplier_id": 2,
+      "type": "in",
+      "qty": 80,
+      "note": "2 karton (Indofood)",
+      "created_at": "2026-06-19T09:15:00.000Z"
+    },
+    {
+      "id": 2,
+      "product_id": 2,
+      "user_id": "e1a9c1e0-827b-4573-b391-7f8f9e68c5b1",
+      "supplier_id": null,
+      "type": "out",
+      "qty": 5,
+      "note": "Penjualan toko",
+      "created_at": "2026-06-19T10:30:00.000Z"
+    },
+    {
+      "id": 3,
+      "product_id": 3,
+      "user_id": "e1a9c1e0-827b-4573-b391-7f8f9e68c5b1",
+      "supplier_id": 1,
+      "type": "in",
+      "qty": 120,
+      "note": "1 karton (Unilever)",
+      "created_at": "2026-06-18T14:20:00.000Z"
+    },
+    {
+      "id": 4,
+      "product_id": 5,
+      "user_id": "e1a9c1e0-827b-4573-b391-7f8f9e68c5b1",
+      "supplier_id": null,
+      "type": "out",
+      "qty": 3,
+      "note": "Penjualan ecer",
+      "created_at": "2026-06-18T16:45:00.000Z"
+    },
+    {
+      "id": 5,
+      "product_id": 2,
+      "user_id": "e1a9c1e0-827b-4573-b391-7f8f9e68c5b1",
+      "supplier_id": 1,
+      "type": "in",
+      "qty": 48,
+      "note": "1 karton (Unilever)",
+      "created_at": "2026-06-18T11:00:00.000Z"
+    },
+    {
+      "id": 6,
+      "product_id": 1,
+      "user_id": "e1a9c1e0-827b-4573-b391-7f8f9e68c5b1",
+      "supplier_id": 1,
+      "type": "in",
+      "qty": 80,
+      "note": "2 karton (Unilever)",
+      "created_at": "2026-10-19T03:37:57.890Z"
+    },
+    {
+      "id": 7,
+      "product_id": 3,
+      "user_id": "e1a9c1e0-827b-4573-b391-7f8f9e68c5b1",
+      "supplier_id": 1,
+      "type": "in",
+      "qty": 600,
+      "note": "5 karton (Unilever)",
+      "created_at": "2026-10-19T03:39:05.970Z"
+    },
+    {
+      "id": 8,
+      "product_id": 2,
+      "user_id": "e1a9c1e0-827b-4573-b391-7f8f9e68c5b1",
+      "supplier_id": null,
+      "type": "out",
+      "qty": 3,
+      "note": "Stok keluar",
+      "created_at": "2026-10-19T03:39:28.729Z"
+    }
+  ]
+}
