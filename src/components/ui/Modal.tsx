@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { X } from 'lucide-react';
 
 interface ModalProps {
@@ -16,8 +17,14 @@ export const Modal: React.FC<ModalProps> = ({
   onClose,
   title,
   children,
-  maxWidth = '500px'
+  maxWidth = '520px'
 }) => {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
@@ -32,20 +39,24 @@ export const Modal: React.FC<ModalProps> = ({
     };
   }, [isOpen, onClose]);
 
-  if (!isOpen) return null;
+  if (!isOpen || !mounted) return null;
 
-  return (
+  return createPortal(
     <div
       style={{
         position: 'fixed',
-        inset: 0,
-        zIndex: 9999,
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        zIndex: 99999,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: '16px',
-        background: 'rgba(15, 23, 42, 0.45)',
-        animation: 'fadeIn 0.15s ease-out'
+        padding: '20px',
+        backgroundColor: 'rgba(15, 23, 42, 0.55)',
+        backdropFilter: 'blur(4px)',
+        animation: 'modalFadeIn 0.15s ease-out'
       }}
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();
@@ -55,15 +66,18 @@ export const Modal: React.FC<ModalProps> = ({
         style={{
           width: '100%',
           maxWidth,
-          background: '#FFFFFF',
+          backgroundColor: '#FFFFFF',
+          borderRadius: '12px',
+          boxShadow: '0 20px 25px -5px rgba(15, 23, 42, 0.2), 0 8px 10px -6px rgba(15, 23, 42, 0.1)',
           border: '1px solid #E2E8F0',
-          borderRadius: 'var(--radius-md)',
-          boxShadow: 'var(--shadow-modal)',
           display: 'flex',
           flexDirection: 'column',
-          maxHeight: '90vh',
-          overflow: 'hidden'
+          maxHeight: 'calc(100vh - 48px)',
+          margin: 'auto',
+          overflow: 'hidden',
+          animation: 'modalPopIn 0.2s cubic-bezier(0.16, 1, 0.3, 1)'
         }}
+        onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
         <div
@@ -76,21 +90,23 @@ export const Modal: React.FC<ModalProps> = ({
             background: '#F8FAFC'
           }}
         >
-          <h3 style={{ fontSize: '15.5px', fontWeight: 700, color: '#1E2C3A' }}>
+          <h3 style={{ fontSize: '16px', fontWeight: 700, color: '#0F172A', margin: 0 }}>
             {title}
           </h3>
           <button
+            type="button"
             onClick={onClose}
             style={{
               color: '#64748B',
               background: '#FFFFFF',
               border: '1px solid #E2E8F0',
               padding: '6px',
-              borderRadius: 'var(--radius-sm)',
+              borderRadius: '6px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              transition: 'all var(--transition-fast)'
+              cursor: 'pointer',
+              transition: 'all 0.15s ease'
             }}
             className="modal-close-btn"
             title="Tutup"
@@ -106,12 +122,22 @@ export const Modal: React.FC<ModalProps> = ({
       </div>
 
       <style jsx global>{`
+        @keyframes modalFadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        @keyframes modalPopIn {
+          from { opacity: 0; transform: scale(0.96) translateY(-8px); }
+          to { opacity: 1; transform: scale(1) translateY(0); }
+        }
         .modal-close-btn:hover {
           background: #FEF2F2 !important;
           color: #DC2626 !important;
           border-color: #FECACA !important;
         }
       `}</style>
-    </div>
+    </div>,
+    document.body
   );
 };
+

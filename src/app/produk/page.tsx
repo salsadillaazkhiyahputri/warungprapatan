@@ -237,45 +237,68 @@ export default function ProdukPage() {
         </div>
       )}
 
-      {/* Action Header & Search Bar */}
-      <div className="page-header-box">
-        <form
-          onSubmit={handleSearchSubmit}
+      {/* Unified Search & Category Filter Toolbar */}
+      <div className="page-header-box" style={{ marginBottom: '22px' }}>
+        <div
           style={{
             display: 'flex',
             alignItems: 'center',
-            gap: '10px',
+            gap: '12px',
             flex: '1',
-            minWidth: '280px',
-            maxWidth: '460px'
+            maxWidth: '620px',
+            flexWrap: 'wrap'
           }}
         >
-          <div style={{ position: 'relative', width: '100%' }}>
+          {/* Search Box */}
+          <div style={{ position: 'relative', flex: '1', minWidth: '220px' }}>
             <span
               style={{
                 position: 'absolute',
                 left: '12px',
                 top: '50%',
                 transform: 'translateY(-50%)',
-                color: '#94A3B8'
+                color: '#94A3B8',
+                display: 'flex',
+                alignItems: 'center'
               }}
             >
-              <Search size={16} />
+              <Search size={15} />
             </span>
             <input
               type="text"
               className="form-input"
-              style={{ paddingLeft: '38px', height: '38px' }}
+              style={{ paddingLeft: '38px', height: '38px', fontSize: '13px' }}
               placeholder="Cari nama produk..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  e.preventDefault();
+                  fetchProducts();
+                }
+              }}
             />
           </div>
-          <button type="submit" className="btn btn-secondary btn-sm" style={{ height: '38px' }}>
-            Cari
-          </button>
-        </form>
 
+          {/* Category Dropdown Filter */}
+          <div style={{ width: '170px' }}>
+            <select
+              className="form-select"
+              style={{ height: '38px', fontSize: '13px' }}
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
+            >
+              <option value="Semua">Semua Kategori</option>
+              <option value="Sembako">Sembako</option>
+              <option value="Minuman">Minuman</option>
+              <option value="Mie">Mie</option>
+              <option value="Bumbu">Bumbu</option>
+              <option value="Sabun">Sabun</option>
+            </select>
+          </div>
+        </div>
+
+        {/* Action Buttons */}
         <div style={{ display: 'flex', gap: '8px' }}>
           <button
             onClick={fetchProducts}
@@ -283,6 +306,7 @@ export default function ProdukPage() {
             title="Segarkan Data"
           >
             <RefreshCw size={14} className={isLoading ? 'pulse' : ''} />
+            <span>Segarkan</span>
           </button>
 
           <button onClick={openAddModal} className="btn btn-primary btn-sm">
@@ -292,51 +316,16 @@ export default function ProdukPage() {
         </div>
       </div>
 
-      {/* Category Filter Pills */}
-      <div
-        style={{
-          display: 'flex',
-          gap: '8px',
-          overflowX: 'auto',
-          paddingBottom: '8px',
-          marginBottom: '20px'
-        }}
-      >
-        {CATEGORIES.map((cat) => {
-          const isSelected = selectedCategory === cat;
-          return (
-            <button
-              key={cat}
-              onClick={() => setSelectedCategory(cat)}
-              style={{
-                padding: '6px 14px',
-                borderRadius: 'var(--radius-full)',
-                fontSize: '12.5px',
-                fontWeight: isSelected ? 600 : 500,
-                background: isSelected ? '#0F172A' : '#FFFFFF',
-                color: isSelected ? '#FFFFFF' : '#475569',
-                border: `1px solid ${isSelected ? '#0F172A' : '#E2E8F0'}`,
-                boxShadow: isSelected ? '0 1px 3px rgba(15, 23, 42, 0.15)' : 'var(--shadow-xs)',
-                transition: 'all var(--transition-fast)',
-                cursor: 'pointer'
-              }}
-            >
-              {cat}
-            </button>
-          );
-        })}
-      </div>
-
       {/* Tabel Data Produk */}
       <div className="table-container">
         <table className="data-table">
           <thead>
             <tr>
-              <th style={{ width: '32%' }}>Nama Produk</th>
-              <th style={{ width: '18%' }}>Kategori</th>
-              <th style={{ width: '12%' }}>Satuan</th>
-              <th style={{ width: '16%' }}>Isi per Karton</th>
-              <th style={{ width: '14%', textAlign: 'right' }}>Stok Saat Ini</th>
+              <th style={{ width: '32%' }}>Produk</th>
+              <th style={{ width: '16%' }}>Kategori</th>
+              <th style={{ width: '18%' }}>Stok Saat Ini</th>
+              <th style={{ width: '14%' }}>Batas Minimum</th>
+              <th style={{ width: '12%', textAlign: 'center' }}>Status</th>
               <th style={{ width: '80px', textAlign: 'center' }}>Aksi</th>
             </tr>
           </thead>
@@ -370,16 +359,20 @@ export default function ProdukPage() {
                 return (
                   <tr key={item.id}>
                     <td>
-                      <div style={{ fontWeight: 600, color: '#0F172A', fontSize: '13.5px' }}>
+                      <div style={{ fontWeight: 600, color: '#0F172A', fontSize: '14px' }}>
                         {item.name}
+                      </div>
+                      <div style={{ fontSize: '12px', color: '#64748B', marginTop: '2px' }}>
+                        Satuan: {item.unit}
+                        {item.qty_per_karton ? ` · ${item.qty_per_karton} ${item.unit}/karton` : ''}
                       </div>
                     </td>
                     <td>
                       <span
                         style={{
-                          fontSize: '11.5px',
+                          fontSize: '12px',
                           fontWeight: 500,
-                          padding: '3px 8px',
+                          padding: '3px 9px',
                           borderRadius: 'var(--radius-sm)',
                           background: '#F1F5F9',
                           border: '1px solid #E2E8F0',
@@ -389,38 +382,56 @@ export default function ProdukPage() {
                         {item.category}
                       </span>
                     </td>
-                    <td style={{ color: '#475569' }}>
-                      {item.unit}
+                    <td>
+                      <div style={{ fontWeight: 700, color: '#0F172A', fontSize: '14px' }}>
+                        {item.stock_current} <span style={{ fontWeight: 500, color: '#64748B', fontSize: '12.5px' }}>{item.unit}</span>
+                      </div>
+                      {item.qty_per_karton && cartons > 0 && (
+                        <div style={{ fontSize: '11.5px', color: '#94A3B8', marginTop: '1px' }}>
+                          {cartons} dus {remainder > 0 ? `+ ${remainder} ${item.unit}` : ''}
+                        </div>
+                      )}
                     </td>
-                    <td style={{ color: '#475569' }}>
-                      {item.qty_per_karton ? `${item.qty_per_karton} ${item.unit}/karton` : '-'}
+                    <td>
+                      <div style={{ fontSize: '13px', color: '#475569', fontWeight: 500 }}>
+                        {item.stock_minimum} {item.unit}
+                      </div>
                     </td>
-                    <td style={{ textAlign: 'right' }}>
+                    <td style={{ textAlign: 'center' }}>
                       {isLowStock ? (
-                        <div style={{ display: 'inline-flex', flexDirection: 'column', alignItems: 'flex-end', gap: '2px' }}>
-                          <Badge type="warning">
-                            {item.stock_current} {item.unit}
-                          </Badge>
-                          <span style={{ fontSize: '11px', color: '#DC2626', fontWeight: 600 }}>
-                            Min: {item.stock_minimum} {item.unit}
-                          </span>
-                        </div>
+                        <span
+                          style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '4px',
+                            padding: '3px 8px',
+                            borderRadius: '12px',
+                            fontSize: '11.5px',
+                            fontWeight: 600,
+                            background: '#FEF2F2',
+                            color: '#DC2626',
+                            border: '1px solid #FECACA'
+                          }}
+                        >
+                          ⚠️ Menipis
+                        </span>
                       ) : (
-                        <div style={{ display: 'inline-flex', flexDirection: 'column', alignItems: 'flex-end', gap: '2px' }}>
-                          <div>
-                            <span style={{ fontWeight: 600, color: '#0F172A', fontSize: '13.5px' }}>
-                              {item.stock_current} {item.unit}
-                            </span>
-                            {item.qty_per_karton && (
-                              <span style={{ fontSize: '11.5px', color: '#94A3B8', marginLeft: '6px' }}>
-                                ({cartons} dus{remainder > 0 ? ` + ${remainder}` : ''})
-                              </span>
-                            )}
-                          </div>
-                          <span style={{ fontSize: '11px', color: '#64748B' }}>
-                            Batas min: {item.stock_minimum} {item.unit}
-                          </span>
-                        </div>
+                        <span
+                          style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '4px',
+                            padding: '3px 8px',
+                            borderRadius: '12px',
+                            fontSize: '11.5px',
+                            fontWeight: 600,
+                            background: '#ECFDF5',
+                            color: '#059669',
+                            border: '1px solid #A7F3D0'
+                          }}
+                        >
+                          ● Aman
+                        </span>
                       )}
                     </td>
                     <td style={{ textAlign: 'center' }}>
