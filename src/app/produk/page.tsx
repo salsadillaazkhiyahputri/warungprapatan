@@ -207,7 +207,7 @@ export default function ProdukPage() {
 
   return (
     <DashboardLayout
-      title="Kelola Data Produk"
+      title="Produk"
       subtitle="Katalog barang toko, stok saat ini, dan konversi satuan karton"
     >
       {/* Toast Notification */}
@@ -237,66 +237,38 @@ export default function ProdukPage() {
         </div>
       )}
 
-      {/* Unified Search & Category Filter Toolbar */}
+      {/* Toolbar: Search & Add Button */}
       <div className="page-header-box" style={{ marginBottom: '22px' }}>
-        <div
+        <form
+          onSubmit={handleSearchSubmit}
           style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '12px',
+            position: 'relative',
             flex: '1',
-            maxWidth: '620px',
-            flexWrap: 'wrap'
+            maxWidth: '520px'
           }}
         >
-          {/* Search Box */}
-          <div style={{ position: 'relative', flex: '1', minWidth: '220px' }}>
-            <span
-              style={{
-                position: 'absolute',
-                left: '12px',
-                top: '50%',
-                transform: 'translateY(-50%)',
-                color: '#94A3B8',
-                display: 'flex',
-                alignItems: 'center'
-              }}
-            >
-              <Search size={15} />
-            </span>
-            <input
-              type="text"
-              className="form-input"
-              style={{ paddingLeft: '38px', height: '38px', fontSize: '13px' }}
-              placeholder="Cari nama produk..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') {
-                  e.preventDefault();
-                  fetchProducts();
-                }
-              }}
-            />
-          </div>
-
-          {/* Category Dropdown Filter */}
-          <div style={{ width: '170px' }}>
-            <select
-              className="form-select"
-              style={{ height: '38px', fontSize: '13px' }}
-              value={selectedCategory}
-              onChange={(e) => setSelectedCategory(e.target.value)}
-            >
-              <option value="Semua">Semua Kategori</option>
-              <option value="Sembako">Sembako</option>
-              <option value="Minuman">Minuman</option>
-              <option value="Mie">Mie</option>
-              <option value="Bumbu">Bumbu</option>
-              <option value="Sabun">Sabun</option>
-            </select>
-          </div>
-        </div>
+          <span
+            style={{
+              position: 'absolute',
+              left: '12px',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              color: '#94A3B8',
+              display: 'flex',
+              alignItems: 'center'
+            }}
+          >
+            <Search size={15} />
+          </span>
+          <input
+            type="text"
+            className="form-input"
+            style={{ paddingLeft: '38px', height: '38px', fontSize: '13.5px' }}
+            placeholder="Cari produk..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        </form>
 
         {/* Action Buttons */}
         <div style={{ display: 'flex', gap: '8px' }}>
@@ -311,21 +283,21 @@ export default function ProdukPage() {
 
           <button onClick={openAddModal} className="btn btn-primary btn-sm">
             <Plus size={15} />
-            <span>Tambah Produk</span>
+            <span>Tambah produk</span>
           </button>
         </div>
       </div>
 
-      {/* Tabel Data Produk */}
+      {/* Tabel Data Produk Sesuai Proposal */}
       <div className="table-container">
         <table className="data-table">
           <thead>
             <tr>
-              <th style={{ width: '32%' }}>Produk</th>
-              <th style={{ width: '16%' }}>Kategori</th>
-              <th style={{ width: '18%' }}>Stok Saat Ini</th>
-              <th style={{ width: '14%' }}>Batas Minimum</th>
-              <th style={{ width: '12%', textAlign: 'center' }}>Status</th>
+              <th style={{ width: '32%' }}>Nama</th>
+              <th style={{ width: '18%' }}>Kategori</th>
+              <th style={{ width: '14%' }}>Satuan</th>
+              <th style={{ width: '16%' }}>Per karton</th>
+              <th style={{ width: '12%' }}>Stok</th>
               <th style={{ width: '80px', textAlign: 'center' }}>Aksi</th>
             </tr>
           </thead>
@@ -349,90 +321,33 @@ export default function ProdukPage() {
             ) : (
               products.map((item) => {
                 const isLowStock = item.stock_current <= item.stock_minimum;
-                const cartons = item.qty_per_karton
-                  ? Math.floor(item.stock_current / item.qty_per_karton)
-                  : 0;
-                const remainder = item.qty_per_karton
-                  ? item.stock_current % item.qty_per_karton
-                  : 0;
 
                 return (
                   <tr key={item.id}>
                     <td>
-                      <div style={{ fontWeight: 600, color: '#0F172A', fontSize: '14px' }}>
+                      <div style={{ fontWeight: 600, color: '#0F172A', fontSize: '13.5px' }}>
                         {item.name}
                       </div>
-                      <div style={{ fontSize: '12px', color: '#64748B', marginTop: '2px' }}>
-                        Satuan: {item.unit}
-                        {item.qty_per_karton ? ` · ${item.qty_per_karton} ${item.unit}/karton` : ''}
-                      </div>
+                    </td>
+                    <td style={{ color: '#334155', fontSize: '13px' }}>
+                      {item.category}
+                    </td>
+                    <td style={{ color: '#475569', fontSize: '13px' }}>
+                      {item.unit}
+                    </td>
+                    <td style={{ color: '#475569', fontSize: '13px' }}>
+                      {item.qty_per_karton ?? '-'}
                     </td>
                     <td>
                       <span
                         style={{
-                          fontSize: '12px',
-                          fontWeight: 500,
-                          padding: '3px 9px',
-                          borderRadius: 'var(--radius-sm)',
-                          background: '#F1F5F9',
-                          border: '1px solid #E2E8F0',
-                          color: '#334155'
+                          fontSize: '14px',
+                          fontWeight: isLowStock ? 700 : 500,
+                          color: isLowStock ? '#DC2626' : '#0F172A'
                         }}
                       >
-                        {item.category}
+                        {item.stock_current}
                       </span>
-                    </td>
-                    <td>
-                      <div style={{ fontWeight: 700, color: '#0F172A', fontSize: '14px' }}>
-                        {item.stock_current} <span style={{ fontWeight: 500, color: '#64748B', fontSize: '12.5px' }}>{item.unit}</span>
-                      </div>
-                      {item.qty_per_karton && cartons > 0 && (
-                        <div style={{ fontSize: '11.5px', color: '#94A3B8', marginTop: '1px' }}>
-                          {cartons} dus {remainder > 0 ? `+ ${remainder} ${item.unit}` : ''}
-                        </div>
-                      )}
-                    </td>
-                    <td>
-                      <div style={{ fontSize: '13px', color: '#475569', fontWeight: 500 }}>
-                        {item.stock_minimum} {item.unit}
-                      </div>
-                    </td>
-                    <td style={{ textAlign: 'center' }}>
-                      {isLowStock ? (
-                        <span
-                          style={{
-                            display: 'inline-flex',
-                            alignItems: 'center',
-                            gap: '4px',
-                            padding: '3px 8px',
-                            borderRadius: '12px',
-                            fontSize: '11.5px',
-                            fontWeight: 600,
-                            background: '#FEF2F2',
-                            color: '#DC2626',
-                            border: '1px solid #FECACA'
-                          }}
-                        >
-                          ⚠️ Menipis
-                        </span>
-                      ) : (
-                        <span
-                          style={{
-                            display: 'inline-flex',
-                            alignItems: 'center',
-                            gap: '4px',
-                            padding: '3px 8px',
-                            borderRadius: '12px',
-                            fontSize: '11.5px',
-                            fontWeight: 600,
-                            background: '#ECFDF5',
-                            color: '#059669',
-                            border: '1px solid #A7F3D0'
-                          }}
-                        >
-                          ● Aman
-                        </span>
-                      )}
                     </td>
                     <td style={{ textAlign: 'center' }}>
                       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
@@ -588,13 +503,8 @@ export default function ProdukPage() {
               className="form-input"
               value={formData.stock_minimum}
               onChange={(e) => setFormData({ ...formData, stock_minimum: parseInt(e.target.value, 10) || 0 })}
-              placeholder="Contoh: 10 untuk gula, 2 untuk gunting"
               required
             />
-            <span style={{ fontSize: '11.5px', color: '#64748B', marginTop: '5px', display: 'block', lineHeight: 1.45 }}>
-              💡 <strong>Logika Peringatan:</strong> Sistem menandai &quot;Stok Menipis&quot; jika stok ≤ angka ini.
-              Barang cepat laku (seperti sembako/gula) disarankan diset lebih tinggi (misal 10–20), sedangkan barang jarang laku (seperti gunting/perkakas) cukup diset rendah (misal 2–3).
-            </span>
           </div>
 
           <div
@@ -728,13 +638,8 @@ export default function ProdukPage() {
               className="form-input"
               value={formData.stock_minimum}
               onChange={(e) => setFormData({ ...formData, stock_minimum: parseInt(e.target.value, 10) || 0 })}
-              placeholder="Contoh: 10 untuk gula, 2 untuk gunting"
               required
             />
-            <span style={{ fontSize: '11.5px', color: '#64748B', marginTop: '5px', display: 'block', lineHeight: 1.45 }}>
-              💡 <strong>Logika Peringatan:</strong> Sistem menandai &quot;Stok Menipis&quot; jika stok ≤ angka ini.
-              Barang cepat laku (seperti sembako/gula) disarankan diset lebih tinggi (misal 10–20), sedangkan barang jarang laku (seperti gunting/perkakas) cukup diset rendah (misal 2–3).
-            </span>
           </div>
 
           <div
