@@ -93,8 +93,8 @@ export default function SupplierPage() {
 
   return (
     <DashboardLayout
-      title="Kelola Data Supplier"
-      subtitle="Daftar mitra distributor pemasok barang toko"
+      title="Supplier"
+      subtitle="Supplier ditambahkan otomatis dari chatbot. Anda dapat mengedit nama jika terdapat kesalahan penulisan."
     >
       {/* Toast Notification */}
       {toastMessage && (
@@ -123,14 +123,6 @@ export default function SupplierPage() {
         </div>
       )}
 
-      {/* Modern Clean Note Banner */}
-      <div className="info-callout">
-        <Info size={16} style={{ color: '#0F172A', flexShrink: 0, marginTop: '2px' }} />
-        <span>
-          Mitra supplier otomatis tercatat saat pencatatan transaksi masuk melalui Telegram Bot. Anda dapat memperbarui nama supplier jika diperlukan penyesuaian.
-        </span>
-      </div>
-
       {/* Header Counter & Refresh */}
       <div className="page-header-box" style={{ marginBottom: '18px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -155,24 +147,26 @@ export default function SupplierPage() {
             title="Segarkan Data"
           >
             <RefreshCw size={14} className={isLoading ? 'pulse' : ''} />
+            <span>Segarkan</span>
           </button>
         </div>
       </div>
 
-      {/* Tabel Data Supplier */}
+      {/* Tabel Data Supplier Sesuai Proposal */}
       <div className="table-container">
         <table className="data-table">
           <thead>
             <tr>
-              <th style={{ width: '45%' }}>Nama Supplier</th>
-              <th style={{ width: '35%' }}>Terdaftar Sejak</th>
-              <th style={{ width: '20%', textAlign: 'center' }}>Aksi</th>
+              <th style={{ width: '40%' }}>Nama supplier</th>
+              <th style={{ width: '25%' }}>Jml transaksi</th>
+              <th style={{ width: '25%' }}>Terakhir masuk</th>
+              <th style={{ width: '10%', textAlign: 'center' }}>Aksi</th>
             </tr>
           </thead>
           <tbody>
             {isLoading ? (
               <tr>
-                <td colSpan={3} style={{ textAlign: 'center', padding: '36px', color: '#94A3B8' }}>
+                <td colSpan={4} style={{ textAlign: 'center', padding: '36px', color: '#94A3B8' }}>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
                     <div style={{ width: '16px', height: '16px', borderRadius: '50%', border: '2px solid #CBD5E1', borderTopColor: '#0F172A', animation: 'spin 0.6s linear infinite' }} />
                     <span>Memuat data supplier...</span>
@@ -181,7 +175,7 @@ export default function SupplierPage() {
               </tr>
             ) : suppliers.length === 0 ? (
               <tr>
-                <td colSpan={3} style={{ textAlign: 'center', padding: '40px', color: '#64748B' }}>
+                <td colSpan={4} style={{ textAlign: 'center', padding: '40px', color: '#64748B' }}>
                   <Building2 size={32} style={{ color: '#94A3B8', margin: '0 auto 8px', display: 'block' }} />
                   <span>Belum ada supplier yang tercatat.</span>
                 </td>
@@ -190,40 +184,34 @@ export default function SupplierPage() {
               suppliers.map((item) => (
                 <tr key={item.id}>
                   <td>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                      <div
-                        style={{
-                          width: '32px',
-                          height: '32px',
-                          borderRadius: 'var(--radius-sm)',
-                          background: '#F1F5F9',
-                          border: '1px solid #E2E8F0',
-                          color: '#0F172A',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          flexShrink: 0
-                        }}
-                      >
-                        <Truck size={15} />
-                      </div>
-                      <span style={{ fontWeight: 600, color: '#0F172A', fontSize: '13.5px' }}>
-                        {item.name}
-                      </span>
+                    <div style={{ fontWeight: 600, color: '#0F172A', fontSize: '13.5px' }}>
+                      {item.name}
                     </div>
                   </td>
-                  <td style={{ color: '#475569' }}>
-                    {formatDateOnly(item.created_at)}
+                  <td style={{ color: '#334155', fontSize: '13.5px' }}>
+                    {item.transaction_count ?? 0}
+                  </td>
+                  <td style={{ color: '#475569', fontSize: '13.5px' }}>
+                    {item.last_restock_date ? formatDateOnly(item.last_restock_date) : '-'}
                   </td>
                   <td style={{ textAlign: 'center' }}>
                     <button
                       onClick={() => openEditModal(item)}
-                      className="btn btn-secondary btn-sm"
-                      style={{ fontSize: '12px', height: '32px', padding: '0 12px' }}
+                      style={{
+                        padding: '6px',
+                        borderRadius: 'var(--radius-sm)',
+                        color: '#334155',
+                        background: '#F8FAFC',
+                        border: '1px solid #E2E8F0',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        transition: 'all var(--transition-fast)'
+                      }}
+                      className="action-btn-edit"
                       title="Ubah Nama Supplier"
                     >
-                      <Edit2 size={12} />
-                      <span>Ubah Nama</span>
+                      <Edit2 size={13} />
                     </button>
                   </td>
                 </tr>

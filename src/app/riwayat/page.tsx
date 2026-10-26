@@ -291,95 +291,199 @@ export default function RiwayatPage() {
         </div>
       </div>
 
-      {/* Filter Bar */}
+      {/* Spacious Modern Filter Card */}
       <div
         style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(190px, 1fr))',
-          gap: '14px',
-          padding: '18px 20px',
           background: '#FFFFFF',
           border: '1px solid #E2E8F0',
           borderRadius: 'var(--radius-lg)',
-          marginBottom: '20px',
+          padding: '22px 24px',
+          marginBottom: '24px',
           boxShadow: 'var(--shadow-card)'
         }}
       >
-        {/* Date Filter: Dari Tanggal */}
-        <div>
-          <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-            <Calendar size={13} style={{ color: '#64748B' }} />
-            <span>Dari Tanggal</span>
-          </label>
-          <input
-            type="date"
-            className="form-input"
-            value={startDate}
-            onChange={(e) => setStartDate(e.target.value)}
-          />
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            marginBottom: '16px',
+            paddingBottom: '14px',
+            borderBottom: '1px solid #F1F5F9'
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <Filter size={15} style={{ color: '#0F172A' }} />
+            <h4 style={{ fontSize: '14px', fontWeight: 700, color: '#0F172A', margin: 0 }}>
+              Filter Riwayat Transaksi
+            </h4>
+          </div>
+
+          {(startDate || endDate || selectedProductId !== 'all' || selectedType !== 'all') && (
+            <button
+              onClick={handleResetFilter}
+              className="btn btn-secondary btn-sm"
+              style={{ height: '30px', fontSize: '12px', padding: '0 12px' }}
+            >
+              <RotateCcw size={12} />
+              <span>Reset Filter</span>
+            </button>
+          )}
         </div>
 
-        {/* Date Filter: Sampai Tanggal */}
-        <div>
-          <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-            <Calendar size={13} style={{ color: '#64748B' }} />
-            <span>Sampai Tanggal</span>
-          </label>
-          <input
-            type="date"
-            className="form-input"
-            value={endDate}
-            onChange={(e) => setEndDate(e.target.value)}
-          />
-        </div>
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(210px, 1fr))',
+            gap: '16px'
+          }}
+        >
+          {/* Dari Tanggal (DD/MM/YYYY) */}
+          <div>
+            <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12.5px', fontWeight: 600, color: '#334155', marginBottom: '6px' }}>
+              <Calendar size={13} style={{ color: '#64748B' }} />
+              <span>Dari Tanggal</span>
+            </label>
+            <div style={{ position: 'relative' }}>
+              <input
+                type="text"
+                readOnly
+                placeholder="dd/mm/yyyy"
+                value={startDate ? (() => {
+                  const [y, m, d] = startDate.split('-');
+                  return `${d}/${m}/${y}`;
+                })() : ''}
+                className="form-input"
+                style={{ paddingRight: '38px', cursor: 'pointer', background: '#FFFFFF', height: '38px', fontSize: '13px' }}
+                onClick={(e) => {
+                  const dateInput = e.currentTarget.nextElementSibling as HTMLInputElement;
+                  if (dateInput) {
+                    if (typeof dateInput.showPicker === 'function') dateInput.showPicker();
+                    else dateInput.focus();
+                  }
+                }}
+              />
+              <input
+                type="date"
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
+                style={{
+                  position: 'absolute',
+                  right: '6px',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  opacity: 0,
+                  width: '28px',
+                  height: '28px',
+                  cursor: 'pointer'
+                }}
+              />
+              <Calendar
+                size={15}
+                style={{
+                  position: 'absolute',
+                  right: '12px',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  color: '#64748B',
+                  pointerEvents: 'none'
+                }}
+              />
+            </div>
+          </div>
 
-        {/* Dropdown Produk */}
-        <div>
-          <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-            <Filter size={13} style={{ color: '#64748B' }} />
-            <span>Filter Produk</span>
-          </label>
-          <select
-            className="form-select"
-            value={selectedProductId}
-            onChange={(e) => setSelectedProductId(e.target.value)}
-          >
-            <option value="all">Semua Produk</option>
-            {products.map((p) => (
-              <option key={p.id} value={p.id.toString()}>
-                {p.name}
-              </option>
-            ))}
-          </select>
-        </div>
+          {/* Sampai Tanggal (DD/MM/YYYY) */}
+          <div>
+            <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12.5px', fontWeight: 600, color: '#334155', marginBottom: '6px' }}>
+              <Calendar size={13} style={{ color: '#64748B' }} />
+              <span>Sampai Tanggal</span>
+            </label>
+            <div style={{ position: 'relative' }}>
+              <input
+                type="text"
+                readOnly
+                placeholder="dd/mm/yyyy"
+                value={endDate ? (() => {
+                  const [y, m, d] = endDate.split('-');
+                  return `${d}/${m}/${y}`;
+                })() : ''}
+                className="form-input"
+                style={{ paddingRight: '38px', cursor: 'pointer', background: '#FFFFFF', height: '38px', fontSize: '13px' }}
+                onClick={(e) => {
+                  const dateInput = e.currentTarget.nextElementSibling as HTMLInputElement;
+                  if (dateInput) {
+                    if (typeof dateInput.showPicker === 'function') dateInput.showPicker();
+                    else dateInput.focus();
+                  }
+                }}
+              />
+              <input
+                type="date"
+                value={endDate}
+                onChange={(e) => setEndDate(e.target.value)}
+                style={{
+                  position: 'absolute',
+                  right: '6px',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  opacity: 0,
+                  width: '28px',
+                  height: '28px',
+                  cursor: 'pointer'
+                }}
+              />
+              <Calendar
+                size={15}
+                style={{
+                  position: 'absolute',
+                  right: '12px',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  color: '#64748B',
+                  pointerEvents: 'none'
+                }}
+              />
+            </div>
+          </div>
 
-        {/* Dropdown Jenis Transaksi */}
-        <div>
-          <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-            <Filter size={13} style={{ color: '#64748B' }} />
-            <span>Jenis Transaksi</span>
-          </label>
-          <select
-            className="form-select"
-            value={selectedType}
-            onChange={(e) => setSelectedType(e.target.value as 'all' | TransactionType)}
-          >
-            <option value="all">Semua Jenis</option>
-            <option value="in">Stok Masuk (+)</option>
-            <option value="out">Stok Keluar (-)</option>
-          </select>
-        </div>
+          {/* Filter Produk */}
+          <div>
+            <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12.5px', fontWeight: 600, color: '#334155', marginBottom: '6px' }}>
+              <Filter size={13} style={{ color: '#64748B' }} />
+              <span>Filter Produk</span>
+            </label>
+            <select
+              className="form-select"
+              style={{ height: '38px', fontSize: '13px' }}
+              value={selectedProductId}
+              onChange={(e) => setSelectedProductId(e.target.value)}
+            >
+              <option value="all">Semua Produk</option>
+              {products.map((p) => (
+                <option key={p.id} value={p.id.toString()}>
+                  {p.name}
+                </option>
+              ))}
+            </select>
+          </div>
 
-        {/* Reset Filter Button */}
-        <div style={{ display: 'flex', alignItems: 'flex-end' }}>
-          <button
-            onClick={handleResetFilter}
-            className="btn btn-secondary"
-            style={{ width: '100%', height: '38px' }}
-          >
-            <RotateCcw size={14} />
-            <span>Reset Filter</span>
-          </button>
+          {/* Jenis Transaksi */}
+          <div>
+            <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12.5px', fontWeight: 600, color: '#334155', marginBottom: '6px' }}>
+              <Filter size={13} style={{ color: '#64748B' }} />
+              <span>Jenis Transaksi</span>
+            </label>
+            <select
+              className="form-select"
+              style={{ height: '38px', fontSize: '13px' }}
+              value={selectedType}
+              onChange={(e) => setSelectedType(e.target.value as 'all' | TransactionType)}
+            >
+              <option value="all">Semua Jenis</option>
+              <option value="in">Stok Masuk (+)</option>
+              <option value="out">Stok Keluar (-)</option>
+            </select>
+          </div>
         </div>
       </div>
 

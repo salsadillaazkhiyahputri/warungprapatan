@@ -237,38 +237,57 @@ export default function ProdukPage() {
         </div>
       )}
 
-      {/* Toolbar: Search & Add Button */}
+      {/* Toolbar: Search, Category Dropdown & Action Buttons */}
       <div className="page-header-box" style={{ marginBottom: '22px' }}>
-        <form
-          onSubmit={handleSearchSubmit}
-          style={{
-            position: 'relative',
-            flex: '1',
-            maxWidth: '520px'
-          }}
-        >
-          <span
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flex: '1', maxWidth: '640px', flexWrap: 'wrap' }}>
+          <form
+            onSubmit={handleSearchSubmit}
             style={{
-              position: 'absolute',
-              left: '12px',
-              top: '50%',
-              transform: 'translateY(-50%)',
-              color: '#94A3B8',
-              display: 'flex',
-              alignItems: 'center'
+              position: 'relative',
+              flex: '1',
+              minWidth: '220px'
             }}
           >
-            <Search size={15} />
-          </span>
-          <input
-            type="text"
-            className="form-input"
-            style={{ paddingLeft: '38px', height: '38px', fontSize: '13.5px' }}
-            placeholder="Cari produk..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-        </form>
+            <span
+              style={{
+                position: 'absolute',
+                left: '12px',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                color: '#94A3B8',
+                display: 'flex',
+                alignItems: 'center'
+              }}
+            >
+              <Search size={15} />
+            </span>
+            <input
+              type="text"
+              className="form-input"
+              style={{ paddingLeft: '38px', height: '38px', fontSize: '13.5px' }}
+              placeholder="Cari produk..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </form>
+
+          {/* Category Dropdown */}
+          <div style={{ width: '160px' }}>
+            <select
+              className="form-select"
+              style={{ height: '38px', fontSize: '13px' }}
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
+            >
+              <option value="Semua">Semua Kategori</option>
+              <option value="Sembako">Sembako</option>
+              <option value="Minuman">Minuman</option>
+              <option value="Mie">Mie</option>
+              <option value="Bumbu">Bumbu</option>
+              <option value="Sabun">Sabun</option>
+            </select>
+          </div>
+        </div>
 
         {/* Action Buttons */}
         <div style={{ display: 'flex', gap: '8px' }}>
