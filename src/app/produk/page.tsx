@@ -401,20 +401,25 @@ export default function ProdukPage() {
                           <Badge type="warning">
                             {item.stock_current} {item.unit}
                           </Badge>
-                          <span style={{ fontSize: '11px', color: '#DC2626', fontWeight: 500 }}>
+                          <span style={{ fontSize: '11px', color: '#DC2626', fontWeight: 600 }}>
                             Min: {item.stock_minimum} {item.unit}
                           </span>
                         </div>
                       ) : (
-                        <div>
-                          <span style={{ fontWeight: 600, color: '#0F172A', fontSize: '13.5px' }}>
-                            {item.stock_current} {item.unit}
-                          </span>
-                          {item.qty_per_karton && (
-                            <span style={{ fontSize: '11.5px', color: '#94A3B8', marginLeft: '6px' }}>
-                              ({cartons} dus{remainder > 0 ? ` + ${remainder}` : ''})
+                        <div style={{ display: 'inline-flex', flexDirection: 'column', alignItems: 'flex-end', gap: '2px' }}>
+                          <div>
+                            <span style={{ fontWeight: 600, color: '#0F172A', fontSize: '13.5px' }}>
+                              {item.stock_current} {item.unit}
                             </span>
-                          )}
+                            {item.qty_per_karton && (
+                              <span style={{ fontSize: '11.5px', color: '#94A3B8', marginLeft: '6px' }}>
+                                ({cartons} dus{remainder > 0 ? ` + ${remainder}` : ''})
+                              </span>
+                            )}
+                          </div>
+                          <span style={{ fontSize: '11px', color: '#64748B' }}>
+                            Batas min: {item.stock_minimum} {item.unit}
+                          </span>
                         </div>
                       )}
                     </td>
@@ -572,8 +577,13 @@ export default function ProdukPage() {
               className="form-input"
               value={formData.stock_minimum}
               onChange={(e) => setFormData({ ...formData, stock_minimum: parseInt(e.target.value, 10) || 0 })}
+              placeholder="Contoh: 10 untuk gula, 2 untuk gunting"
               required
             />
+            <span style={{ fontSize: '11.5px', color: '#64748B', marginTop: '5px', display: 'block', lineHeight: 1.45 }}>
+              💡 <strong>Logika Peringatan:</strong> Sistem menandai &quot;Stok Menipis&quot; jika stok ≤ angka ini.
+              Barang cepat laku (seperti sembako/gula) disarankan diset lebih tinggi (misal 10–20), sedangkan barang jarang laku (seperti gunting/perkakas) cukup diset rendah (misal 2–3).
+            </span>
           </div>
 
           <div
@@ -707,8 +717,13 @@ export default function ProdukPage() {
               className="form-input"
               value={formData.stock_minimum}
               onChange={(e) => setFormData({ ...formData, stock_minimum: parseInt(e.target.value, 10) || 0 })}
+              placeholder="Contoh: 10 untuk gula, 2 untuk gunting"
               required
             />
+            <span style={{ fontSize: '11.5px', color: '#64748B', marginTop: '5px', display: 'block', lineHeight: 1.45 }}>
+              💡 <strong>Logika Peringatan:</strong> Sistem menandai &quot;Stok Menipis&quot; jika stok ≤ angka ini.
+              Barang cepat laku (seperti sembako/gula) disarankan diset lebih tinggi (misal 10–20), sedangkan barang jarang laku (seperti gunting/perkakas) cukup diset rendah (misal 2–3).
+            </span>
           </div>
 
           <div
